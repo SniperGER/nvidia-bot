@@ -1,0 +1,9 @@
+{
+	"PRODUCT_AVAILABLE": "Artikel ist jetzt verfügbar!\n%s",
+	"PRODUCT_NOT_AVAILABLE": "Artikel ist nicht länger verfügbar.",
+	"RETAILER_ADDED": "Ein Händler wurde hinzugefügt:\n%s",
+	"RETAILER_REMOVED": "Ein Händler wurde entfernt:\n%s",
+	"RETAILER_PRICE_CHANGE": "%s hat den Preis verändert:\n%s → %s",
+	"RETAILER_STOCK_CHANGE": "%s hat die verfügbare Menge verändert:\n%d → %d",
+	"RETAILER_URL_CHANGE": "%s hat die URL zum Direktkauf verändert:\n%s → %s"
+}

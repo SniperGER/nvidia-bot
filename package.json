@@ -1,0 +1,37 @@
+{
+  "name": "nvidia-bot",
+  "version": "1.0.0",
+  "description": "Discord bot checking the NVIDIA API for available Founders Edition GPUs",
+  "main": "dist/nvidia-bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc && webpack --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SniperGER/nvidia-bot.git"
+  },
+  "author": "SniperGER",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SniperGER/nvidia-bot/issues"
+  },
+  "homepage": "https://github.com/SniperGER/nvidia-bot",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "discord.js": "^13.3.1",
+    "dotenv": "^10.0.0",
+    "dotenv-expand": "^5.1.0",
+    "minimist": "^1.2.5",
+    "semver": "^7.3.5",
+    "sprintf-js": "^1.1.2",
+    "typescript": "^4.4.4"
+  },
+  "devDependencies": {
+    "@types/semver": "^7.3.9",
+    "@types/sprintf-js": "^1.1.2",
+    "webpack": "^5.64.1",
+    "webpack-cli": "^4.9.1",
+    "webpack-node-externals": "^3.0.0"
+  }
+}

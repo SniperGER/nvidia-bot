@@ -1,0 +1,19 @@
+{
+	// "compileOnSave": true,
+	"compilerOptions": {
+		"allowJs": true,
+		"baseUrl": ".",
+		"resolveJsonModule": true,
+		"esModuleInterop": true,
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"noImplicitAny": true,
+		"outDir": "build",
+		"paths": {
+			"*": [ "node_modules/*" ]
+		},
+		"sourceMap": true,
+		"target": "ES2021"
+	},
+	"include": [ "src/**/*" ]
+}
