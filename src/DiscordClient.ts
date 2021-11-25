@@ -100,10 +100,14 @@ export default class DiscordClient {
 	}
 
 	private SetRandomActivity() {
-		let Activities: {[key: string]: any} = JSON.parse(fs.readFileSync(path.join(process.cwd(), "activities.json")).toString());
-		let activity = Activities[Math.floor(Math.random() * Activities.length)];
+		try {
+			let Activities: {[key: string]: any} = JSON.parse(fs.readFileSync(path.join(process.cwd(), "activities.json")).toString());
+			let activity = Activities[Math.floor(Math.random() * Activities.length)];
 
-		Logger.Log("DiscordClient", `Setting activity to \x1b[3m${activity.options.type}\x1b[0m "${activity.text}".`);
-		this.client.user.setActivity(activity.text, (activity.options as ActivityOptions));
+			Logger.Log("DiscordClient", `Setting activity to \x1b[3m${activity.options.type}\x1b[0m "${activity.text}".`);
+			this.client.user.setActivity(activity.text, (activity.options as ActivityOptions));
+		} catch (error) {
+			Logger.Log("DiscordClient", `Could not set user activity. Error: ${error}`, LogLevel.ERROR);
+		}
 	}
 }
