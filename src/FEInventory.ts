@@ -55,11 +55,13 @@ export default class FEInventory {
 						this.CurrentInventory[region][retailerName.hostname] = {}
 					}
 
-					if (is_active && retailer.isAvailable && retailer.type !== FEAvailability.OUT_OF_STOCK) {
+					// if (is_active && retailer.isAvailable && retailer.type !== FEAvailability.OUT_OF_STOCK) {
+					if (is_active) {
 						console.log(retailer.productTitle, retailer.retailerName, retailer.type);
 						Logger.Log("FEInventory", `(${region}) ${retailer.productTitle} available at ${product_url}`);
 
-						if (this.CurrentInventory[region][retailerName.hostname][fe_sku] && this.CurrentInventory[region][retailerName.hostname][fe_sku] !== retailer.type) {
+						// if (this.CurrentInventory[region][retailerName.hostname][fe_sku] && this.CurrentInventory[region][retailerName.hostname][fe_sku] !== retailer.type) {
+						if (!this.CurrentInventory[region][retailerName.hostname][fe_sku]) {
 							discordClient.SendEmbeddedMessage(
 								`:flag_${region.toLowerCase()}: ${retailer.productTitle}`,
 								sprintf(Localization.PRODUCT_AVAILABLE, product_url),
