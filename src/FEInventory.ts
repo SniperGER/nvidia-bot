@@ -79,8 +79,8 @@ export default class FEInventory {
 					} else {
 						Logger.Log("FEInventory", `(${region}) ${retailer.productTitle} out of stock at ${retailerName}`);
 
-						if (this.CurrentInventory[region][retailerName.hostname][fe_sku] && this.CurrentInventory[region][retailerName.hostname][fe_sku] !== FEAvailability.OUT_OF_STOCK) {
-							discordClient.SendEmbeddedMessage(
+						// if (this.CurrentInventory[region][retailerName.hostname][fe_sku] && this.CurrentInventory[region][retailerName.hostname][fe_sku] !== FEAvailability.OUT_OF_STOCK) {
+						if (this.CurrentInventory[region][retailerName.hostname][fe_sku]) {
 								`:flag_${region.toLowerCase()}: ${retailer.productTitle}`,
 								Localization.PRODUCT_NOT_AVAILABLE,
 								{
@@ -93,7 +93,7 @@ export default class FEInventory {
 						}
 					}
 
-					this.CurrentInventory[region][retailerName.hostname][fe_sku] = retailer.type;
+					this.CurrentInventory[region][retailerName.hostname][fe_sku] = is_active;
 				}
 			}
 		}
