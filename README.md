@@ -67,6 +67,6 @@ You can also set various options when running NVIDIABot through a command line i
 | `--channel-name` | `DISCORD_CHANNEL_NAME` |
 | `--guilds` | `DISCORD_GUILDS` |
 
-## Credita
+## Credits
 * NVIDIA: Building awesome GPUs and generating high demand, which is the reason bots like this exist at all
-* @ElegyD: For creating [nvidia-notifier](https://github.com/ElegyD/nvidia-notifier), the insöpiration for this bot
+* @ElegyD: For creating [nvidia-notifier](https://github.com/ElegyD/nvidia-notifier), the inspiration for this bot
