@@ -62,7 +62,7 @@ export default class FEInventory {
 
 						// if (this.CurrentInventory[region][retailerName.hostname][fe_sku] && this.CurrentInventory[region][retailerName.hostname][fe_sku] !== retailer.type) {
 						if (!this.CurrentInventory[region][retailerName.hostname][fe_sku]) {
-							discordClient.SendEmbeddedMessage(
+							discordClient.QueueEmbeddedMessage(
 								`:flag_${region.toLowerCase()}: ${retailer.productTitle}`,
 								sprintf(Localization.PRODUCT_AVAILABLE, product_url),
 								{
@@ -81,6 +81,7 @@ export default class FEInventory {
 
 						// if (this.CurrentInventory[region][retailerName.hostname][fe_sku] && this.CurrentInventory[region][retailerName.hostname][fe_sku] !== FEAvailability.OUT_OF_STOCK) {
 						if (this.CurrentInventory[region][retailerName.hostname][fe_sku]) {
+							discordClient.QueueEmbeddedMessage(
 								`:flag_${region.toLowerCase()}: ${retailer.productTitle}`,
 								Localization.PRODUCT_NOT_AVAILABLE,
 								{
@@ -98,6 +99,7 @@ export default class FEInventory {
 			}
 		}
 
+		discordClient.SendQueuedEmbedMessages();
 		this.ScheduleNextCheck();
 	}
 

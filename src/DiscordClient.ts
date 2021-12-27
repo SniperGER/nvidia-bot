@@ -9,6 +9,8 @@ export default class DiscordClient {
 
 	private client: Client;
 
+	private embedMessageQueue: Array<MessageEmbed> = [];
+
 	public get User() {
 		return this.client?.user;
 	}
@@ -45,6 +47,19 @@ export default class DiscordClient {
 
 		Logger.Log("DiscordClient", "Signing in to Discord...");
 		this.client.login(this.token);
+	}
+
+	public QueueEmbeddedMessage(title: string, description: string, options: {[key: string]: any} = {}) {
+		let dateString = new Date().toLocaleString(process.env["LANG"].split(".")[0].replace(/_/g, "-").toLowerCase());
+
+		this.embedMessageQueue.push(new MessageEmbed({
+			title,
+			description,
+			...options,
+			footer: {
+				text: options?.footer?.text ? `${options?.footer?.text} • ${dateString}` : dateString
+			}
+		}));
 	}
 
 	public SendEmbeddedMessage(title: string, description: string, options: {[key: string]: any} = {}) {
@@ -97,6 +112,33 @@ export default class DiscordClient {
 				Logger.Log("DiscordClient", `Failed to send message to "${guild.name}". Error: ${err}`, LogLevel.ERROR);
 			}
 		});
+	}
+
+	public SendQueuedEmbedMessages() {
+		if (!this.embedMessageQueue.length) return;
+		if (!this.client) return;
+
+		this.client.guilds.cache.each((guild: Guild) => {
+			if (guild.id !== "909389283092226088") return;
+
+			let guilds = process.env["DISCORD_GUILDS"]?.split(/,|;/) || [];
+			if (guilds.length && guilds[0] !== "" && !guilds.includes(guild.id)) return;
+
+			try {
+				const channel = guild.channels.cache.find(channel => channel.name === process.env["DISCORD_CHANNEL_NAME"]);
+				if (channel) {
+					(channel as TextChannel).send({
+						embeds: this.embedMessageQueue
+					});
+				} else {
+					Logger.Log("DiscordClient", `The server "${guild.name}" has no channel named "${this.channelName}".`, LogLevel.ERROR);
+				}
+			} catch (err) {
+				Logger.Log("DiscordClient", `Failed to send message to "${guild.name}". Error: ${err}`, LogLevel.ERROR);
+			}
+		});
+
+		this.embedMessageQueue = [];
 	}
 
 	private SetRandomActivity() {
