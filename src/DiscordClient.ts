@@ -52,7 +52,7 @@ export default class DiscordClient {
 		let dateString = new Date().toLocaleString(process.env["LANG"].split(".")[0].replace(/_/g, "-").toLowerCase());
 
 		this.client.guilds.cache.each((guild: Guild) => {
-			let guilds = process.env["DISCORD_GUILDS"].split(/,|;/);
+			let guilds = process.env["DISCORD_GUILDS"]?.split(/,|;/) || [];
 			if (guilds.length && guilds[0] !== "" && !guilds.includes(guild.id)) return;
 
 			try {
@@ -83,7 +83,7 @@ export default class DiscordClient {
 		if (!this.client) return;
 
 		this.client.guilds.cache.each((guild: Guild) => {
-			let guilds = process.env["DISCORD_GUILDS"].split(/,|;/);
+			let guilds = process.env["DISCORD_GUILDS"]?.split(/,|;/) || [];
 			if (guilds.length && guilds[0] !== "" && !guilds.includes(guild.id)) return;
 
 			try {
