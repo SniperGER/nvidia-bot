@@ -36,7 +36,7 @@ export default class FEInventory {
 			let region = regionMap[locale] ?? locale.split("-")[1].toUpperCase();
 
 			for (const product of this.inventoryCache[region]) {
-				let is_active = product["is_active"] === "true";
+				let is_active = product["is_active"] !== "false";
 				let fe_sku = product["fe_sku"];
 				let product_url = new URL(product["product_url"]);
 
@@ -122,7 +122,7 @@ export default class FEInventory {
 				}
 
 				let json = response.data;
-				var listMap = json["listMap"];
+				var listMap = json["listMap"].filter((_: any) => _["fe_sku"].startsWith("NVGF"));
 
 				if (!listMap.length) {
 					Logger.Log("FEInventory", `Region ${region} does not sell Founders Edition GPUs via NVIDIA.`);
