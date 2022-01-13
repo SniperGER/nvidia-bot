@@ -30,6 +30,8 @@ export default class FEInventory {
 	public static CurrentInventory: { [key: string]: any } = {};
 
 	public static async CheckInventory() {
+		await this.FetchInventory();
+
 		let enabledLocales = process.env["LOCALES"].split(/,|;/);
 
 		for (const locale of enabledLocales) {

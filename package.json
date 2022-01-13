@@ -1,6 +1,6 @@
 {
   "name": "nvidia-bot",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Discord bot checking the NVIDIA API for available Founders Edition GPUs",
   "main": "dist/nvidia-bot.js",
   "scripts": {
