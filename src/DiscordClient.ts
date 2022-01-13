@@ -119,8 +119,6 @@ export default class DiscordClient {
 		if (!this.client) return;
 
 		this.client.guilds.cache.each((guild: Guild) => {
-			if (guild.id !== "909389283092226088") return;
-
 			let guilds = process.env["DISCORD_GUILDS"]?.split(/,|;/) || [];
 			if (guilds.length && guilds[0] !== "" && !guilds.includes(guild.id)) return;
 
