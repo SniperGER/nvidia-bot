@@ -204,7 +204,6 @@ export default class EdgeInventory {
 				this.CheckProducts(products, locale);
 			} catch (error: any) {
 				Logger.Log("EdgeInventory", error, LogLevel.ERROR);
-				console.error(error);
 			}
 		});
 	}

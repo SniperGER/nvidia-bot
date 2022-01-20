@@ -63,7 +63,7 @@ export default class NVIDIABot {
 
 		this.discordClient.Login(async () => {
 			await EdgeInventory.FetchProducts();
-			await FEInventory.FetchInventory();
+			await FEInventory.CheckInventory();
 		});
 
 		readline.createInterface({

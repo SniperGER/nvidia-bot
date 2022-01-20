@@ -136,11 +136,9 @@ export default class FEInventory {
 					this.CurrentInventory[region] = {};
 				}
 			} catch (error) {
-				console.error(error);
+				Logger.Log("FEInventory", error, LogLevel.ERROR);
 			}
 		});
-
-		this.CheckInventory();
 	}
 
 	private static ScheduleNextCheck() {

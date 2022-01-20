@@ -146,8 +146,8 @@ export default class DiscordClient {
 
 			Logger.Log("DiscordClient", `Setting activity to \x1b[3m${activity.options.type}\x1b[0m "${activity.text}".`);
 			this.client.user.setActivity(activity.text, (activity.options as ActivityOptions));
-		} catch (error) {
-			Logger.Log("DiscordClient", `Could not set user activity. Error: ${error}`, LogLevel.ERROR);
+		} catch (err) {
+			Logger.Log("DiscordClient", `Could not set user activity. Error: ${err}`, LogLevel.ERROR);
 		}
 	}
 }
