@@ -6,7 +6,8 @@ import { default as Logger, LogLevel } from './Logger';
 import asyncForEach from './helpers/asyncForEach';
 
 const selectedGPUs = process.env["GPU_LIST"].split(/,|;/);
-const feInventoryUrl = "https://api.store.nvidia.com/partner/v1/feinventory?skus=%s~NVGFT070~NVGFT080~NVGFT090~NVLKR30S~NSHRMT01~NVGFT060T~187&locale=%s"
+const feItems = ["T060T", "T070", "T070T", "T080", "T080T", "T090", "T090T"];
+const feInventoryUrl = "https://api.store.nvidia.com/partner/v1/feinventory?skus=NVGF%s&locale=%s"
 
 let regionMap: {[key: string]: string} = {
 	"en-gb": "UK"
@@ -113,28 +114,31 @@ export default class FEInventory {
 
 			Logger.Log("FEInventory", `Fetching product availability for region "${region}"...`);
 			try {
-				let response = await axios.get(sprintf(feInventoryUrl, region, region));
+				await asyncForEach(feItems, async (feItem: string) => {
+					let response = await axios.get(sprintf(feInventoryUrl, feItem, region));
 
-				if (!response.data || response.data === "failed") {
-					if (Object.keys(this.inventoryCache[region]).length) {
-						Logger.Log("FEInventory", "Fetching inventory data failed. No cached data available.");
-					} else {
-						Logger.Log("FEInventory", "Fetching inventory data failed. No cached data available.");
+					if (!response.data || response.data === "failed") {
+						if (Object.keys(this.inventoryCache[region]).length) {
+							Logger.Log("FEInventory", "Fetching inventory data failed. No cached data available.");
+						} else {
+							Logger.Log("FEInventory", "Fetching inventory data failed. No cached data available.");
+						}
 					}
-				}
 
-				let json = response.data;
-				var listMap = json["listMap"].filter((_: any) => _["fe_sku"].startsWith("NVGF"));
+					let json = response.data;
+					var listMap = json["listMap"].filter((_: any) => _["fe_sku"].startsWith("NVGF"));
 
-				if (!listMap.length) {
-					Logger.Log("FEInventory", `Region ${region} does not sell Founders Edition GPUs via NVIDIA.`);
-				}
+					if (!listMap.length) {
+						Logger.Log("FEInventory", `Region ${region} does not sell Founders Edition GPUs via NVIDIA.`);
+					}
 
-				this.inventoryCache[region] = listMap;
+					if (!this.inventoryCache[region]) this.inventoryCache[region] = [];
+					this.inventoryCache[region] = this.inventoryCache[region].concat(listMap);
 
-				if (!this.CurrentInventory[region]) {
-					this.CurrentInventory[region] = {};
-				}
+					if (!this.CurrentInventory[region]) {
+						this.CurrentInventory[region] = {};
+					}
+				});
 			} catch (error) {
 				Logger.Log("FEInventory", error, LogLevel.ERROR);
 			}
