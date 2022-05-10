@@ -139,6 +139,8 @@ export default class FEInventory {
 						this.CurrentInventory[region] = {};
 					}
 				});
+
+				this.inventoryCache[region] = [...new Map(this.inventoryCache[region].map(feItem => [feItem["fe_sku"], feItem])).values()]
 			} catch (error) {
 				Logger.Log("FEInventory", error, LogLevel.ERROR);
 			}
