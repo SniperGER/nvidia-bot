@@ -132,15 +132,26 @@ export default class FEInventory {
 						Logger.Log("FEInventory", `Region ${region} does not sell Founders Edition GPUs via NVIDIA.`);
 					}
 
-					if (!this.inventoryCache[region]) this.inventoryCache[region] = [];
-					this.inventoryCache[region] = this.inventoryCache[region].concat(listMap);
+					if (!this.inventoryCache[region]) {
+						this.inventoryCache[region] = [];
+					}
+
+					if (this.inventoryCache[region].find(_ => _["fe_sku"] === listMap[0]["fe_sku"])) {
+						this.inventoryCache[region] = this.inventoryCache[region].map(_ => {
+							if (_["fe_sku"] === listMap[0]["fe_sku"]) {
+								return {...listMap[0]};
+							}
+
+							return _;
+						});
+					} else {
+						this.inventoryCache[region] = this.inventoryCache[region].concat(listMap);
+					}
 
 					if (!this.CurrentInventory[region]) {
 						this.CurrentInventory[region] = {};
 					}
 				});
-
-				this.inventoryCache[region] = [...new Map(this.inventoryCache[region].map(feItem => [feItem["fe_sku"], feItem])).values()]
 			} catch (error) {
 				Logger.Log("FEInventory", error, LogLevel.ERROR);
 			}
