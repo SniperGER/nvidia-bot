@@ -97,7 +97,7 @@ export default class FEInventory {
 						}
 					}
 
-					this.CurrentInventory[region][retailerName.hostname][fe_sku] = is_active;
+					this.CurrentInventory[region][retailerName.hostname][fe_sku] = !is_active ? false : this.CurrentInventory[region][retailerName.hostname][fe_sku] || new Date().getTime();
 				}
 			}
 		}
@@ -166,7 +166,7 @@ export default class FEInventory {
 			checkHoursReduced = CHECK_HOURS_REDUCED?.split(/,|;/).map(timespan => timespan.split("-").map(_ => parseInt(_)));
 
 		clearTimeout(this.checkInterval);
-		this.isActive = Object.values(this.CurrentInventory).find(region => Object.values(region).find(retailer => Object.values(retailer).find(product => product !== 80))) !== undefined;
+		this.isActive = Object.values(this.CurrentInventory).find(region => Object.values(region).find(retailer => Object.values(retailer).find(product => product !== false && new Date().getTime() - product < ((parseInt(process.env["SALE_THRESHOLD"]) || 15) * 60 * 1000)))) !== undefined;
 
 		let timeout: number = (() => {
 			let date = new Date(), day = date.getDay(), hour = date.getHours();
